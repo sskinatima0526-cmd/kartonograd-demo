@@ -1,0 +1,590 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow" data-publish>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Картоноград&nbsp;– конструктор из&nbsp;картона</title>
+<meta name="description" content="Демо посадочной страницы Картонограда: конструктор из картона для детей от 4 лет.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Unbounded:wght@600;700;800&family=Rubik:wght@600;700;800&family=Balsamiq+Sans:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FFFFFF;
+  --sky-50:#EAF6FC;
+  --kraft:#C9A47E;
+  --kraft-50:#F4EBE0;
+  --kraft-100:#E9D9C6;
+  --kraft-ink:#6E5137;
+  --ink:#12285E;
+  --ink-2:#3D4A6B;
+  --blue:#023BA4;
+  --blue-d:#012C7C;
+  --sun:#FAB405;
+  --orange:#FB5C20;
+  --pink:#FA648E;
+  --green:#28932B;
+  --violet:#5B35BE;
+  --sky:#14CCFA;
+  --line:#E3E7EF;
+  --hf:'Unbounded', 'Nunito', sans-serif;
+  --hw:700;
+  --hls:-.01em;
+  --r:22px;
+  --wrap:1200px;
+}
+html[data-hf="2"]{--hf:'Rubik','Nunito',sans-serif;--hw:800;--hls:-.015em}
+html[data-hf="3"]{--hf:'Balsamiq Sans','Nunito',sans-serif;--hw:700;--hls:0}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--paper);color:var(--ink-2);font:400 17px/1.55 'Nunito',sans-serif;overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:inherit}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--sun);outline-offset:3px;border-radius:6px}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:var(--hf);font-weight:var(--hw);letter-spacing:var(--hls);color:var(--ink);margin:0}
+h2{font-size:clamp(28px,4.2vw,44px);line-height:1.12}
+.lead{font-size:clamp(17px,1.6vw,19px);color:var(--ink-2);max-width:620px;margin:14px 0 0}
+section{scroll-margin-top:84px}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:56px;padding:0 28px;border-radius:16px;border:0;
+  background:var(--blue);color:#fff;font:800 17px/1.2 'Nunito',sans-serif;text-decoration:none;
+  box-shadow:0 5px 0 var(--blue-d);transition:transform .15s, box-shadow .15s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 6px 0 var(--blue-d)}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--blue-d)}
+.btn--ghost{background:#fff;color:var(--blue);box-shadow:inset 0 0 0 2px var(--blue)}
+.btn--ghost:hover{box-shadow:inset 0 0 0 2px var(--blue);background:var(--sky-50)}
+.btn--ghost:active{box-shadow:inset 0 0 0 2px var(--blue)}
+.link{color:var(--blue);font-weight:800;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:2px}
+
+/* slotted edge: the signature – like the slots on Kartonograd parts */
+.slots{position:relative}
+.slots::before{content:"";position:absolute;left:0;right:0;top:-14px;height:15px;background:inherit;
+  -webkit-mask:repeating-linear-gradient(90deg,#000 0 58px,transparent 58px 72px);
+          mask:repeating-linear-gradient(90deg,#000 0 58px,transparent 58px 72px)}
+.kraft{background:var(--kraft-50)}
+
+/* 0. new year strip */
+.ny{background:var(--blue);color:#fff;font-weight:700;font-size:14px;text-align:center;padding:9px 44px;position:relative}
+.ny b{color:var(--sun)}
+
+/* 1. header */
+.hdr{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.hdr .wrap{display:flex;align-items:center;gap:28px;height:74px}
+.logo img{height:54px;width:auto}
+.nav{display:flex;gap:26px;margin-left:auto}
+.nav a{text-decoration:none;font-weight:700;color:var(--ink);font-size:16px}
+.nav a:hover{color:var(--blue)}
+.cart-btn{position:relative;display:inline-flex;align-items:center;gap:8px;border:0;background:var(--kraft-50);color:var(--ink);
+  height:46px;padding:0 16px;border-radius:14px;font-weight:800}
+.cart-btn svg{width:22px;height:22px}
+.cart-count{min-width:22px;height:22px;border-radius:11px;background:var(--orange);color:#fff;font-size:13px;display:none;align-items:center;justify-content:center;padding:0 6px}
+.cart-count.on{display:inline-flex}
+.burger{display:none;border:0;background:none;width:46px;height:46px;border-radius:12px;color:var(--ink)}
+.burger svg{width:28px;height:28px}
+.mnav{display:none}
+
+/* 2. hero */
+.hero{padding:56px 0 0}
+.hero .grid{display:grid;grid-template-columns:1.02fr 1fr;gap:56px;align-items:center}
+.hero h1{font-size:clamp(40px,5.6vw,72px);line-height:1.02}
+.hero .sub{font-size:clamp(18px,1.7vw,21px);line-height:1.5;color:var(--ink-2);margin:22px 0 30px;max-width:540px}
+.hero .note{margin:16px 0 0;font-size:15px;color:var(--ink-2);display:flex;align-items:center;gap:8px}
+.hero .note svg{width:20px;height:20px;color:var(--green);flex:none}
+.photo-wrap{position:relative;padding:18px 18px 0 0}
+.photo-wrap::before{content:"";position:absolute;inset:0 0 24px 30px;border-radius:30px;background:var(--kraft);
+  background-image:repeating-linear-gradient(90deg,rgba(110,81,55,.09) 0 2px,transparent 2px 7px);transform:rotate(2.2deg)}
+.hero-photo{position:relative;border-radius:28px;overflow:hidden;aspect-ratio:1/1.02}
+.hero-photo img{width:100%;height:100%;object-fit:cover;object-position:40% 30%}
+.sticker{position:absolute;filter:drop-shadow(0 8px 14px rgba(18,40,94,.18));pointer-events:none}
+.st-ship{width:150px;left:-58px;bottom:42px;transform:rotate(-14deg)}
+.st-kit{width:96px;right:-14px;top:-22px;transform:rotate(9deg)}
+.perks{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:56px 0 0;padding:0;list-style:none}
+.perks li{display:flex;gap:14px;align-items:flex-start;background:var(--sky-50);border-radius:var(--r);padding:20px 22px;font-weight:700;color:var(--ink);line-height:1.4}
+.perks .ic{flex:none;width:44px;height:44px;border-radius:14px;display:grid;place-items:center;color:#fff}
+.perks .ic svg{width:24px;height:24px}
+
+/* 3. steps */
+.steps{padding:104px 0 96px}
+.steps .grid{display:grid;grid-template-columns:1fr 1.05fr;gap:56px;align-items:start;margin-top:40px}
+.steps ol{list-style:none;margin:0;padding:0;display:grid;gap:26px}
+.steps li{display:grid;grid-template-columns:52px 1fr;gap:18px}
+.num{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font:800 22px/1 'Nunito',sans-serif;color:#fff}
+.steps h3{font-size:clamp(18px,1.6vw,21px);line-height:1.25;margin:4px 0 6px}
+.steps p{margin:0}
+.video{position:relative;display:block;width:100%;border:0;padding:0;background:#ddd;border-radius:var(--r);overflow:hidden}
+.video img{width:100%;height:100%;object-fit:cover}
+.v169{aspect-ratio:16/9}
+.v916{aspect-ratio:9/16}
+.cap{margin:10px 2px 0;font-size:15px;font-weight:700;color:var(--ink)}
+.steps .video{position:sticky;top:100px}
+
+/* 4. reviews collage */
+.reviews{padding:96px 0 100px;background:var(--sky-50)}
+.reviews .top{display:grid;grid-template-columns:1fr 1.85fr;gap:24px;align-items:end}
+.reviews .side{display:flex;flex-direction:column;gap:28px;justify-content:space-between;height:100%}
+.blog-line{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:14px;font-weight:700;color:var(--ink)}
+.row4{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:28px}
+
+/* 5. sets */
+.sets{padding:96px 0 100px}
+.sets .head{text-align:center;max-width:760px;margin:0 auto}
+.sets .head .lead{margin-left:auto;margin-right:auto}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px;align-items:stretch}
+.card{background:#fff;border-radius:26px;padding:16px 16px 22px;display:grid;grid-template-rows:auto auto auto 1fr auto auto;
+  text-align:center;box-shadow:0 0 0 1px var(--kraft-100);position:relative}
+.card--rec{box-shadow:0 0 0 3px var(--blue),0 18px 40px rgba(2,59,164,.14);transform:translateY(-10px)}
+.badge{position:absolute;top:-15px;left:50%;transform:translateX(-50%) rotate(-2deg);background:var(--sun);color:var(--ink);font-weight:800;font-size:14px;padding:6px 16px;border-radius:999px;z-index:2;white-space:nowrap}
+.box-ph{position:relative;border:0;padding:0;width:100%;aspect-ratio:4/3;border-radius:18px;overflow:hidden;cursor:zoom-in;
+  background:var(--kraft);background-image:repeating-linear-gradient(90deg,rgba(110,81,55,.1) 0 2px,transparent 2px 7px)}
+.box-ph .figs{position:absolute;inset:10% 8% 16%;display:flex;align-items:flex-end;justify-content:center;gap:2%}
+.box-ph .figs img{max-height:100%;width:auto;min-width:0;flex:0 1 auto;filter:drop-shadow(0 6px 8px rgba(0,0,0,.18))}
+.box-ph .ph-note{position:absolute;left:10px;bottom:9px;font-size:12px;font-weight:700;color:#fff;background:rgba(110,81,55,.75);padding:3px 9px;border-radius:8px}
+.card h3{font-size:24px;margin:20px 0 2px}
+.card .parts{font-weight:800;color:var(--kraft-ink);font-size:15px}
+.card .desc{margin:10px 6px 0;color:var(--ink-2)}
+.card .price{font:800 34px/1 'Nunito',sans-serif;color:var(--ink);margin:20px 0 16px}
+.card .btn{width:100%}
+.ship{text-align:center;margin:36px auto 0;max-width:640px;color:var(--ink);font-weight:700}
+
+/* 6. in the box */
+.inbox{padding:96px 0 100px}
+.inbox .grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:center}
+.inbox ul{list-style:none;margin:28px 0 0;padding:0;display:grid;gap:14px}
+.inbox li{display:flex;gap:14px;align-items:center;background:#fff;border-radius:18px;padding:16px 18px;font-weight:700;color:var(--ink)}
+.inbox li i{flex:none;width:14px;height:14px;border-radius:4px;transform:rotate(45deg)}
+.ph2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.slot{aspect-ratio:4/5;border-radius:var(--r);border:2px dashed var(--kraft);background:#fff;display:flex;flex-direction:column;justify-content:flex-end;padding:18px;color:var(--kraft-ink);font-size:14px;font-weight:700;position:relative;overflow:hidden}
+.slot svg{position:absolute;top:50%;left:50%;width:46%;transform:translate(-50%,-62%);color:var(--kraft)}
+
+/* 7. collection */
+.coll{padding:96px 0 100px}
+.coll .head{text-align:center;max-width:720px;margin:0 auto}
+.coll .head .lead{margin-left:auto;margin-right:auto}
+.tabs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:30px 0 0}
+.tab{border:0;background:var(--kraft-50);color:var(--ink);font-weight:800;padding:10px 18px;border-radius:999px;font-size:15px}
+.tab[aria-pressed="true"]{background:var(--ink);color:#fff}
+.figgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:36px}
+.fig{display:flex;flex-direction:column}
+.fig .pic{position:relative;aspect-ratio:5/4;border-radius:var(--r);display:grid;place-items:center;padding:9%;overflow:hidden}
+.fig .pic img{max-height:100%;width:auto;filter:drop-shadow(0 10px 14px rgba(18,40,94,.16))}
+.fig .new{position:absolute;top:14px;left:14px;background:var(--pink);color:#fff;font-weight:800;font-size:13px;padding:4px 12px;border-radius:999px}
+.fig .cat{margin:14px 0 0;font-weight:800;font-size:14px}
+.fig h3{font-size:22px;margin:2px 0 4px}
+.fig p{margin:0 0 8px;font-size:15px}
+.fig[hidden]{display:none}
+.coll .more{text-align:center;margin-top:40px}
+
+/* 8. faq */
+.faq{padding:96px 0 100px;background:var(--sky-50)}
+.faq .grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:56px}
+.faq details{background:#fff;border-radius:18px;margin-bottom:12px}
+.faq summary{list-style:none;cursor:pointer;padding:20px 60px 20px 22px;font-weight:800;color:var(--ink);font-size:18px;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"";position:absolute;right:22px;top:50%;width:22px;height:22px;margin-top:-11px;border-radius:50%;
+  background:var(--kraft-50) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Cpath d='M7 11h8M11 7v8' stroke='%2312285E' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E");transition:transform .2s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{margin:0;padding:0 22px 20px}
+.ask{margin-top:28px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;font-weight:800;color:var(--ink)}
+
+/* 9. final */
+.final{position:relative;padding:110px 0 120px;background:#4fc6f0 url(assets/sky.jpg) center/cover;overflow:hidden}
+.final .card-s{position:relative;max-width:820px;margin:0 auto;background:#fff;border-radius:34px;padding:52px 40px 48px;text-align:center;box-shadow:0 20px 50px rgba(2,59,164,.2)}
+.final h2{font-size:clamp(28px,4vw,46px)}
+.final .btn{margin-top:30px}
+.final .st-a{width:140px;left:-70px;top:-50px;transform:rotate(-10deg)}
+.final .st-b{width:150px;right:-64px;bottom:-40px;transform:rotate(8deg)}
+
+/* 10. banners */
+.banners{padding:56px 0 72px}
+.banners .grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.ban{display:grid;grid-template-columns:150px 1fr;gap:20px;align-items:center;background:var(--kraft-50);border-radius:var(--r);padding:16px}
+.ban img{width:150px;height:150px;object-fit:cover;border-radius:16px}
+.ban h3{font-size:20px}
+.ban p{margin:6px 0 12px;font-size:15px}
+.btn--sm{min-height:42px;padding:0 18px;font-size:15px;border-radius:12px}
+
+/* sticky mobile cta */
+.mcta{position:fixed;left:12px;right:12px;bottom:12px;z-index:45;display:none;transform:translateY(140%);transition:transform .25s}
+.mcta.on{transform:none}
+.mcta .btn{width:100%}
+
+/* modal + cart */
+.overlay{position:fixed;inset:0;background:rgba(18,40,94,.45);z-index:60;display:none}
+.overlay.on{display:block}
+.modal{position:fixed;z-index:61;left:50%;top:50%;transform:translate(-50%,-50%);width:min(860px,calc(100% - 24px));max-height:calc(100% - 24px);overflow:auto;background:#fff;border-radius:28px;display:none;grid-template-columns:1fr 1fr;gap:28px;padding:24px}
+.modal.on{display:grid}
+.modal h3{font-size:28px;margin:8px 0 4px}
+.modal .price{font:800 32px/1 'Nunito',sans-serif;color:var(--ink);margin:20px 0}
+.x{position:absolute;right:14px;top:14px;width:42px;height:42px;border-radius:50%;border:0;background:var(--kraft-50);color:var(--ink);font-size:22px;line-height:1;z-index:2}
+.drawer{position:fixed;z-index:61;top:0;right:0;bottom:0;width:min(420px,100%);background:#fff;transform:translateX(105%);visibility:hidden;transition:transform .25s,visibility .25s;display:flex;flex-direction:column;padding:24px}
+.drawer.on{transform:none;visibility:visible}
+.drawer h3{font-size:24px;margin:4px 0 18px}
+.items{flex:1;overflow:auto;display:grid;align-content:start;gap:12px}
+.item{display:grid;grid-template-columns:1fr auto;gap:6px 12px;background:var(--kraft-50);border-radius:16px;padding:14px 16px}
+.item b{color:var(--ink)}
+.qty{display:flex;align-items:center;gap:8px}
+.qty button{width:32px;height:32px;border-radius:10px;border:0;background:#fff;color:var(--ink);font-weight:800}
+.empty{color:var(--ink-2)}
+.promo{display:flex;gap:8px;margin:16px 0}
+.promo input{flex:1;min-width:0;height:48px;border-radius:12px;border:2px solid var(--line);padding:0 14px;font:inherit}
+.total{display:flex;justify-content:space-between;font-weight:800;color:var(--ink);font-size:20px;margin-bottom:14px}
+.toast{position:fixed;left:50%;top:90px;transform:translate(-50%,-20px);opacity:0;z-index:70;background:var(--ink);color:#fff;padding:12px 20px;border-radius:14px;font-weight:700;transition:.25s;pointer-events:none}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+/* demo controls: font switcher */
+.fonts{position:fixed;left:16px;bottom:16px;z-index:92;background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(18,40,94,.18);padding:10px 12px;font-size:13px;color:var(--ink);display:flex;align-items:center;gap:8px}
+.fonts span{font-weight:700}
+.fonts button{border:0;background:var(--kraft-50);color:var(--ink);border-radius:10px;padding:7px 10px;font-size:13px;font-weight:800}
+.fonts button[aria-pressed="true"]{background:var(--blue);color:#fff}
+.fonts button:nth-of-type(1){font-family:'Unbounded'}
+.fonts button:nth-of-type(2){font-family:'Rubik'}
+.fonts button:nth-of-type(3){font-family:'Balsamiq Sans'}
+
+/* watermark */
+.wm{position:fixed;inset:-50%;z-index:90;pointer-events:none;opacity:.08;transform:rotate(-24deg);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='140'%3E%3Ctext x='10' y='80' font-family='Arial' font-size='26' font-weight='700' fill='%23023BA4'%3Esakina_web%3C/text%3E%3C/svg%3E");background-repeat:repeat}
+.wm-badge{position:fixed;right:16px;bottom:16px;z-index:91;pointer-events:none;background:rgba(255,255,255,.92);border:1px solid var(--line);color:var(--ink);font-size:12px;font-weight:700;padding:7px 12px;border-radius:999px}
+
+/* responsive */
+@media (max-width:1100px){
+  .nav{gap:18px}.nav a{font-size:15px}
+  .st-ship{left:-24px;width:120px}
+}
+@media (max-width:900px){
+  .nav{display:none}
+  .burger{display:inline-grid;place-items:center}
+  .cart-btn{margin-left:auto}
+  .hdr .wrap{gap:8px;height:64px}
+  .logo img{height:38px}
+  .mnav{position:fixed;inset:64px 0 auto 0;z-index:39;background:#fff;border-bottom:1px solid var(--line);padding:8px 20px 20px;flex-direction:column}
+  .mnav.on{display:flex}
+  .mnav a{padding:14px 0;border-bottom:1px solid var(--line);text-decoration:none;font-weight:800;color:var(--ink);font-size:18px}
+  .hero{padding:32px 0 0}
+  .hero .grid,.steps .grid,.inbox .grid,.faq .grid{grid-template-columns:minmax(0,1fr);gap:32px}
+  .hero h1{font-size:clamp(31px,10.4vw,56px)}
+  h2{font-size:clamp(26px,8vw,40px)}
+  .hero .btn{width:100%}
+  .photo-wrap{padding:12px 12px 0 0;margin-top:4px}
+  .st-ship{width:104px;left:-10px;bottom:20px}
+  .st-kit{width:74px;right:-4px;top:-16px}
+  .perks{grid-template-columns:1fr;gap:10px;margin-top:36px}
+  .perks li{padding:14px 16px}
+  .steps,.reviews,.sets,.inbox,.coll,.faq{padding:72px 0 76px}
+  .steps .video{position:relative;top:0}
+  .reviews .top{grid-template-columns:1fr}
+  .reviews .side{display:contents}
+  .reviews .side .lv-big{order:3}
+  .reviews .main{order:2}
+  .reviews .top > div:first-child{order:1}
+  .row4{grid-template-columns:1fr 1fr;gap:14px}
+  .cards{grid-template-columns:1fr;gap:28px;max-width:460px;margin-left:auto;margin-right:auto}
+  .card--rec{transform:none}
+  .figgrid{grid-template-columns:1fr 1fr;gap:14px}
+  .figgrid .fig.lim{display:none}
+  .fig h3{font-size:18px}
+  .fig p{font-size:14px}
+  .banners .grid{grid-template-columns:1fr}
+  .final{padding:72px 0 80px}
+  .final .card-s{padding:40px 22px 34px;border-radius:26px}
+  .final .btn{width:100%}
+  .final .st-a{width:96px;left:-14px;top:-56px}
+  .final .st-b{width:100px;right:-10px;bottom:-56px}
+  .modal{grid-template-columns:1fr;gap:16px;padding:16px 16px 22px}
+  .mcta{display:block}
+  .fonts{left:12px;bottom:12px;padding:0;background:none;box-shadow:none}
+  .fonts span{display:none}
+  .fonts button{display:none;box-shadow:0 6px 18px rgba(18,40,94,.2);padding:8px 12px}
+  .fonts button[aria-pressed="true"]{display:block}
+  .fonts button[aria-pressed="true"]::before{content:"Шрифт: ";font-family:'Nunito'}
+  body.cta-on .fonts{bottom:84px}
+  body.cta-on .wm-badge{bottom:84px}
+  .wm-badge{right:12px;bottom:12px}
+  .ny{font-size:13px;padding:8px 40px}
+}
+@media (max-width:420px){
+  .wrap{padding:0 16px}
+  .ban{grid-template-columns:96px 1fr;gap:14px;padding:12px}
+  .ban img{width:96px;height:96px}
+  .ban h3{font-size:17px}
+  .faq summary{font-size:17px}
+  .row4 .cap{font-size:13px}
+}
+</style>
+</head>
+<body>
+
+<!-- 0. Полоса «Подарок к Новому году» – отдельный блок, скрывается одним кликом -->
+<div class="ny" id="ny">Подарок к&nbsp;Новому году: закажите заранее, чтобы получить набор до&nbsp;праздника</div>
+
+<!-- 1. Шапка -->
+<header class="hdr">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Картоноград – наверх страницы" data-name="Логотип – шапка"><img src="assets/logo.svg" alt="Картоноград – конструктор из картона" width="245" height="72"></a>
+    <nav class="nav" aria-label="Меню страницы">
+      <a href="#sets" data-name="Меню – Наборы">Наборы</a>
+      <a href="#reviews" data-name="Меню – Отзывы">Отзывы</a>
+      <a href="#collection" data-name="Меню – Коллекция фигурок">Коллекция фигурок</a>
+      <a href="#faq" data-name="Меню – Вопросы">Вопросы</a>
+    </nav>
+    <button class="cart-btn" type="button" data-open-cart aria-label="Корзина" data-name="Корзина – шапка">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2l2.4 11h10.2L20 7H6.2"/><circle cx="9.5" cy="19.5" r="1.5"/><circle cx="17" cy="19.5" r="1.5"/></svg>
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
+    <button class="burger" type="button" id="burger" aria-label="Открыть меню" aria-expanded="false" data-name="Меню – бургер">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+  <nav class="mnav" id="mnav" aria-label="Меню страницы">
+    <a href="#sets">Наборы</a>
+    <a href="#reviews">Отзывы</a>
+    <a href="#collection">Коллекция фигурок</a>
+    <a href="#faq">Вопросы</a>
+  </nav>
+</header>
+
+<main id="top">
+
+<!-- 2. Первый экран -->
+<section class="hero" id="hero">
+  <div class="wrap">
+    <div class="grid">
+      <div>
+        <h1>Конструктор из&nbsp;картона</h1>
+        <p class="sub">Ребёнок собирает сам&nbsp;— без&nbsp;клея, ножниц и&nbsp;вашей помощи. А&nbsp;можно сесть рядом и&nbsp;собирать вместе: это&nbsp;хороший повод провести вечер всей семьёй. А&nbsp;чтобы не&nbsp;надоело&nbsp;— новая фигурка каждую неделю.</p>
+        <a class="btn" href="#sets" data-name="Выбрать набор – первый экран">Выбрать набор&nbsp;— от&nbsp;1&nbsp;000&nbsp;₽</a>
+        <p class="note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg>Доставка СДЭК по&nbsp;России и&nbsp;ЕАЭС</p>
+      </div>
+      <div class="photo-wrap">
+        <div class="hero-photo"><img src="assets/hero.jpg" alt="Брат и сестра лежат на полу и раскрашивают собранную из картона фигурку" width="1300" height="1382"></div>
+        <img class="sticker st-ship" src="assets/f-starship.png" alt="" aria-hidden="true">
+        <img class="sticker st-kit" src="assets/f-kitten.png" alt="" aria-hidden="true">
+      </div>
+    </div>
+    <ul class="perks">
+      <li><span class="ic" style="background:var(--orange)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="9" width="8" height="12" rx="1.5"/><rect x="13" y="3" width="8" height="12" rx="1.5"/><path d="M11 13h2"/></svg></span>Ни&nbsp;клея, ни&nbsp;ножниц&nbsp;— детали просто вставляются друг в&nbsp;друга</li>
+      <li><span class="ic" style="background:var(--violet)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/><path d="M12 13l1 2 2 .3-1.5 1.4.4 2.1-1.9-1-1.9 1 .4-2.1L9 15.3l2-.3z"/></svg></span>Каждую неделю&nbsp;— новая фигурка на&nbsp;сайте и&nbsp;во&nbsp;ВКонтакте</li>
+      <li><span class="ic" style="background:var(--green)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4l6 6-8.5 8.5a3 3 0 0 1-2 .9L5 20l.6-4.5a3 3 0 0 1 .9-2z"/><path d="M12 6l6 6"/></svg></span>Раскрашивайте чем&nbsp;угодно: фломастеры, краски, цветная бумага</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 3. Это проще, чем кажется -->
+<section class="steps" id="how">
+  <div class="wrap">
+    <h2>Это&nbsp;проще, чем&nbsp;кажется</h2>
+    <div class="grid">
+      <ol>
+        <li><span class="num" style="background:var(--blue)">1</span><div><h3>Выберите вместе с&nbsp;ребёнком, что&nbsp;собрать</h3><p>В&nbsp;коробке три&nbsp;схемы: зверь, машина и&nbsp;космический корабль. Каждую неделю на&nbsp;сайте появляется новая фигурка, анонсы&nbsp;— в&nbsp;нашей группе ВКонтакте.</p></div></li>
+        <li><span class="num" style="background:var(--orange)">2</span><div><h3>Ребёнок собирает её&nbsp;по&nbsp;схеме</h3><p>Детали вставляются одна в&nbsp;другую, без&nbsp;клея и&nbsp;ножниц. Если деталь встала криво, её&nbsp;легко вынуть и&nbsp;поставить заново.</p></div></li>
+        <li><span class="num" style="background:var(--pink)">3</span><div><h3>Раскрасьте готовую фигурку</h3><p>Фломастерами, красками или&nbsp;обклейте цветной бумагой&nbsp;— всем, что&nbsp;есть дома.</p></div></li>
+        <li><span class="num" style="background:var(--green)">4</span><div><h3>Или&nbsp;соберите без&nbsp;схемы</h3><p>Позвольте ребёнку собрать то, что&nbsp;хочется ему. Детали те&nbsp;же, а&nbsp;фигурка новая&nbsp;— такой нет&nbsp;ни&nbsp;в&nbsp;одной схеме.</p></div></li>
+      </ol>
+      <button class="video v169" type="button" data-name="Видео сборки фигурки"><img src="assets/v-assembly.jpg" alt="Видео: ребёнок собирает фигурку из картона от первой детали до готовой" loading="lazy"></button>
+    </div>
+  </div>
+</section>
+
+<!-- 4. Собрали вместе с детьми (Zero Block, коллаж роликов) -->
+<section class="reviews slots" id="reviews">
+  <div class="wrap">
+    <div class="top">
+      <div class="side">
+        <div>
+          <h2>Собрали вместе с&nbsp;детьми</h2>
+          <p class="lead">Родители-блогеры получили набор и&nbsp;показали, как&nbsp;всё&nbsp;было на&nbsp;самом деле.</p>
+        </div>
+        <div class="lv-big">
+          <button class="video v169" type="button" data-name="Видео отзыв – loveshopping"><img src="assets/v-loveshopping.jpg" alt="Видеообзор набора от блогера loveshopping" loading="lazy"></button>
+          <p class="cap">loveshopping</p>
+        </div>
+      </div>
+      <div class="main">
+        <button class="video v169" type="button" data-name="Видео отзыв – OksanaBulat"><img src="assets/v-oksana.jpg" alt="Видеообзор набора от блогера OksanaBulat: мама с дочкой собирают конструктор" loading="lazy"></button>
+        <p class="cap">OksanaBulat</p>
+        <div class="blog-line"><span>Ведёте блог о&nbsp;детях? Пришлём набор для&nbsp;обзора.</span><a class="link" href="#faq" data-name="Написать нам – блогерам">Написать нам&nbsp;→</a></div>
+      </div>
+    </div>
+    <div class="row4">
+      <div><button class="video v916" type="button" data-name="Видео отзыв – lv"><img src="assets/v-lv.jpg" alt="Видео: раскрашивание фигурки красками" loading="lazy"></button></div>
+      <div><button class="video v916" type="button" data-name="Видео отзыв – anyuta__aym"><img src="assets/v-anyuta.jpg" alt="Видеообзор набора от блогера anyuta__aym" loading="lazy"></button><p class="cap">anyuta__aym</p></div>
+      <div><button class="video v916" type="button" data-name="Видео отзыв – shopaholic_samara"><img src="assets/v-shopaholic.jpg" alt="Видеообзор набора от блогера shopaholic_samara" loading="lazy"></button><p class="cap">shopaholic_samara</p></div>
+      <div><button class="video v916" type="button" data-name="Видео отзыв – tanyaa_yudina"><img src="assets/v-tanya.jpg" alt="Видеообзор набора от блогера tanyaa_yudina" loading="lazy"></button><p class="cap">tanyaa_yudina</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. Наборы (каталог Тильды ST305N) -->
+<section class="sets" id="sets">
+  <div class="wrap">
+    <div class="head">
+      <h2>Сколько деталей вам&nbsp;нужно?</h2>
+      <p class="lead">Чем&nbsp;больше деталей, тем&nbsp;больше фигурок можно собрать одновременно&nbsp;— и&nbsp;тем&nbsp;больше детей могут играть вместе.</p>
+    </div>
+    <div class="cards">
+      <article class="card">
+        <button class="box-ph" type="button" data-product="0" aria-label="Открыть набор «Старт»" data-name="Фото набора Старт"><span class="figs"><img src="assets/f-kitten.png" alt="Фигурка котёнка из набора «Старт»" style="height:88%"></span><span class="ph-note">место под&nbsp;фото коробки 4:3</span></button>
+        <h3>Старт</h3>
+        <div class="parts">255&nbsp;деталей</div>
+        <p class="desc">Для&nbsp;первого знакомства или&nbsp;как&nbsp;небольшой подарок.</p>
+        <div class="price">1&nbsp;000&nbsp;₽</div>
+        <button class="btn btn--ghost" type="button" data-add="0" data-name="В корзину – Старт">В&nbsp;корзину</button>
+      </article>
+      <article class="card card--rec">
+        <span class="badge">Рекомендуем</span>
+        <button class="box-ph" type="button" data-product="1" aria-label="Открыть набор «Для всей семьи»" data-name="Фото набора Для всей семьи"><span class="figs"><img src="assets/f-hedgehog.png" alt="Фигурка ёжика" style="height:70%"><img src="assets/f-kamaz.png" alt="Фигурка камаза" style="height:62%"></span><span class="ph-note">место под&nbsp;фото коробки 4:3</span></button>
+        <h3>Для&nbsp;всей семьи</h3>
+        <div class="parts">370&nbsp;деталей</div>
+        <p class="desc">Для&nbsp;вечеров и&nbsp;выходных, когда собираете вместе.</p>
+        <div class="price">1&nbsp;490&nbsp;₽</div>
+        <button class="btn" type="button" data-add="1" data-name="В корзину – Для всей семьи">В&nbsp;корзину</button>
+      </article>
+      <article class="card">
+        <button class="box-ph" type="button" data-product="2" aria-label="Открыть набор «На праздник!»" data-name="Фото набора На праздник"><span class="figs"><img src="assets/f-puppy.png" alt="Фигурка щенка" style="height:72%"><img src="assets/f-bulldozer.png" alt="Фигурка бульдозера" style="height:56%"><img src="assets/f-penguin.png" alt="Фигурка пингвина" style="height:50%"></span><span class="ph-note">место под&nbsp;фото коробки 4:3</span></button>
+        <h3>На&nbsp;праздник!</h3>
+        <div class="parts">490&nbsp;деталей</div>
+        <p class="desc">Для&nbsp;дня&nbsp;рождения и&nbsp;компании друзей.</p>
+        <div class="price">1&nbsp;690&nbsp;₽</div>
+        <button class="btn btn--ghost" type="button" data-add="2" data-name="В корзину – На праздник">В&nbsp;корзину</button>
+      </article>
+    </div>
+    <p class="ship">Доставка СДЭК по&nbsp;России и&nbsp;ЕАЭС, оплата при&nbsp;получении. Цена доставки зависит от&nbsp;города.</p>
+  </div>
+</section>
+
+<!-- 6. Что в коробке -->
+<section class="inbox kraft slots" id="inbox">
+  <div class="wrap">
+    <div class="grid">
+      <div>
+        <h2>Что&nbsp;в&nbsp;коробке</h2>
+        <ul>
+          <li><i style="background:var(--orange)"></i>Детали из&nbsp;микрогофрокартона</li>
+          <li><i style="background:var(--violet)"></i>Три&nbsp;схемы фигурок: зверь, машина и&nbsp;космический корабль</li>
+          <li><i style="background:var(--green)"></i>Карточка с&nbsp;QR-кодом на&nbsp;коллекцию фигурок</li>
+        </ul>
+      </div>
+      <div class="ph2">
+        <div class="slot"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"><path d="M8 24l24-10 24 10v24L32 58 8 48z"/><path d="M8 24l24 10 24-10M32 34v24M8 24L2 14l24-10 6 10M56 24l6-10-24-10-6 10"/></svg>Место под&nbsp;фото: открытая коробка с&nbsp;деталями и&nbsp;схемами, 4:5</div>
+        <div class="slot"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 58V34l-6-8a4 4 0 0 1 6-5l6 7V10a4 4 0 0 1 8 0v18-6a4 4 0 0 1 8 0v8-4a4 4 0 0 1 8 0v14c0 10-6 18-14 18H20z"/></svg>Место под&nbsp;фото: фигурка в&nbsp;руке ребёнка для&nbsp;понимания размера, 4:5</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7. Коллекция фигурок (CMS-поток FD301) -->
+<section class="coll" id="collection">
+  <div class="wrap">
+    <div class="head">
+      <h2>Коллекция фигурок</h2>
+      <p class="lead">Что&nbsp;собрать сегодня? Каждую неделю здесь появляется новая фигурка со&nbsp;схемой сборки.</p>
+    </div>
+    <div class="tabs" role="group" aria-label="Разделы коллекции">
+      <button class="tab" type="button" data-f="all" aria-pressed="true">Все</button>
+      <button class="tab" type="button" data-f="zveri" aria-pressed="false">Звери</button>
+      <button class="tab" type="button" data-f="tech" aria-pressed="false">Техника</button>
+      <button class="tab" type="button" data-f="space" aria-pressed="false">Космос</button>
+      <button class="tab" type="button" data-f="new" aria-pressed="false">Новинка</button>
+    </div>
+    <div class="figgrid" id="figgrid">
+      <article class="fig" data-c="zveri new"><div class="pic" style="background:#FDE7EE"><span class="new">Новинка</span><img src="assets/f-kitten.png" alt="Фигурка котёнка из картона, раскрашенная в чёрный и белый" loading="lazy"></div><div class="cat" style="color:var(--pink)">Звери</div><h3>Котёнок</h3><p>Собирается из&nbsp;набора «Старт»</p><a class="link" href="#collection" data-name="Открыть схему – Котёнок">Открыть схему</a></article>
+      <article class="fig" data-c="tech"><div class="pic" style="background:#FFE6DA"><img src="assets/f-kamaz.png" alt="Оранжевый самосвал камаз из картона" loading="lazy"></div><div class="cat" style="color:var(--orange)">Техника</div><h3>Камаз</h3><p>Собирается из&nbsp;набора «Старт»</p><a class="link" href="#collection" data-name="Открыть схему – Камаз">Открыть схему</a></article>
+      <article class="fig" data-c="space"><div class="pic" style="background:#E8E1FA"><img src="assets/f-starship.png" alt="Бело-синий звездолёт из картона" loading="lazy"></div><div class="cat" style="color:var(--violet)">Космос</div><h3>Звездолёт</h3><p>Собирается из&nbsp;набора «Старт»</p><a class="link" href="#collection" data-name="Открыть схему – Звездолёт">Открыть схему</a></article>
+      <article class="fig" data-c="zveri"><div class="pic" style="background:#FDE7EE"><img src="assets/f-hedgehog.png" alt="Ёжик из картона с тёмными иголками" loading="lazy"></div><div class="cat" style="color:var(--pink)">Звери</div><h3>Ёжик</h3><p>Собирается из&nbsp;набора «Старт»</p><a class="link" href="#collection" data-name="Открыть схему – Ёжик">Открыть схему</a></article>
+      <article class="fig lim" data-c="tech"><div class="pic" style="background:#FFE6DA"><img src="assets/f-bulldozer.png" alt="Жёлтый бульдозер из картона" loading="lazy"></div><div class="cat" style="color:var(--orange)">Техника</div><h3>Бульдозер</h3><p>Собирается из&nbsp;набора «Старт»</p><a class="link" href="#collection" data-name="Открыть схему – Бульдозер">Открыть схему</a></article>
+      <article class="fig lim" data-c="space"><div class="pic" style="background:#E8E1FA"><img src="assets/f-iss.png" alt="Космическая станция из картона с солнечными батареями" loading="lazy"></div><div class="cat" style="color:var(--violet)">Космос</div><h3>Космическая станция</h3><p>Собирается из&nbsp;набора «Старт»</p><a class="link" href="#collection" data-name="Открыть схему – Космическая станция">Открыть схему</a></article>
+    </div>
+    <div class="more"><a class="btn btn--ghost" href="#collection" data-name="Смотреть все фигурки">Смотреть все&nbsp;фигурки →</a></div>
+  </div>
+</section>
+
+<!-- 8. Вопросы -->
+<section class="faq" id="faq">
+  <div class="wrap">
+    <div class="grid">
+      <h2>Вопросы</h2>
+      <div>
+        <details><summary>Для&nbsp;какого возраста?</summary><p>От&nbsp;4&nbsp;лет. С&nbsp;малышами лучше собирать вместе.</p></details>
+        <details><summary>Нужны ли&nbsp;клей и&nbsp;ножницы?</summary><p>Нет, детали просто вставляются одна в&nbsp;другую.</p></details>
+        <details><summary>Где&nbsp;брать новые схемы?</summary><p>В&nbsp;коллекции на&nbsp;этой странице: новая фигурка каждую неделю.</p></details>
+        <details><summary>Как&nbsp;доставляете?</summary><p>СДЭК по&nbsp;России и&nbsp;ЕАЭС. Цена зависит от&nbsp;города.</p></details>
+        <details><summary>Как&nbsp;оплатить?</summary><p>При&nbsp;получении заказа в&nbsp;СДЭК.</p></details>
+        <details><summary>Можно ли&nbsp;вернуть набор?</summary><p>Да, в&nbsp;течение 7&nbsp;дней после получения, если сохранены товарный вид&nbsp;и&nbsp;комплектность.</p></details>
+        <div class="ask"><span>Хотите спросить о&nbsp;чём-то ещё?</span><a class="btn btn--ghost" href="#faq" data-name="Написать нам во ВКонтакте – вопросы">Написать нам&nbsp;во&nbsp;ВКонтакте</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 9. Финал -->
+<section class="final" id="final">
+  <div class="wrap">
+    <div class="card-s">
+      <img class="sticker st-a" src="assets/f-sputnik.png" alt="" aria-hidden="true">
+      <img class="sticker st-b" src="assets/f-puppy.png" alt="" aria-hidden="true">
+      <h2>Самые лучшие фигурки ещё&nbsp;не&nbsp;придуманы. Придумай свою!</h2>
+      <a class="btn" href="#sets" data-name="Выбрать набор – финал">Выбрать набор&nbsp;— от&nbsp;1&nbsp;000&nbsp;₽</a>
+    </div>
+  </div>
+</section>
+
+<!-- 10. Два баннера -->
+<section class="banners" id="b2b">
+  <div class="wrap">
+    <div class="grid">
+      <div class="ban"><img src="assets/banner-mk.jpg" alt="Дети собирают конструктор на мастер-классе за общим столом" loading="lazy"><div><h3>Мастер-класс под&nbsp;ключ</h3><p>Для&nbsp;аниматоров, школ и&nbsp;садов: наборы и&nbsp;готовый сценарий занятия.</p><a class="btn btn--ghost btn--sm" href="#b2b" data-name="Подробнее – мастер-класс">Подробнее</a></div></div>
+      <div class="ban"><img src="assets/banner-gift.jpg" alt="Брат и сестра играют с собранными фигурками" loading="lazy"><div><h3>Подарки детям сотрудников</h3><p>Подарок, который сотрудник соберёт вместе с&nbsp;ребёнком.</p><a class="btn btn--ghost btn--sm" href="#b2b" data-name="Подробнее – подарки сотрудникам">Подробнее</a></div></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- Закреплённая кнопка (только телефон) -->
+<div class="mcta" id="mcta"><a class="btn" href="#sets" data-name="Выбрать набор – закреплённая кнопка">Выбрать набор&nbsp;— от&nbsp;1&nbsp;000&nbsp;₽</a></div>
+
+<!-- Окно товара -->
+<div class="overlay" id="overlay"></div>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <button class="x" type="button" data-close aria-label="Закрыть">×</button>
+  <div class="box-ph" id="mPic" style="cursor:default"></div>
+  <div>
+    <div class="parts" id="mParts" style="font-weight:800;color:var(--kraft-ink);margin-top:10px"></div>
+    <h3 id="mTitle"></h3>
+    <p id="mDesc"></p>
+    <p style="font-size:15px">Возраст от&nbsp;4&nbsp;лет. Доставка СДЭК по&nbsp;России и&nbsp;ЕАЭС, оплата при&nbsp;получении.</p>
+    <div class="price" id="mPrice"></div>
+    <button class="btn" type="button" id="mAdd" style="width:100%">В&nbsp;корзину</button>
+  </div>
+</div>
+
+<!-- Корзина -->
+<aside class="drawer" id="drawer" aria-label="Корзина">
+  <button class="x" type="button" data-close aria-label="Закрыть корзину">×</button>
+  <h3>Корзина</h3>
+  <div class="items" id="items"></div>
+  <form class="promo" onsubmit="return false"><input type="text" placeholder="Промокод" aria-label="Промокод"><button class="btn btn--ghost btn--sm" type="submit">Применить</button></form>
+  <div class="total"><span>Итого</span><span id="total">0&nbsp;₽</span></div>
+  <button class="btn" type="button" id="checkout">Оформить заказ</button>
+</aside>
+
+<div class="toast" id="toast" role="status"></div>
+
+<!-- Демо: выбор заголовочного шрифта -->
+<div class="fonts" role="group" aria-label="Вариант шрифта заголовков">
+  <span>Шрифт заголовков:</span>
+  <button type="button" data-hf="1" aria-pressed="true" title="Unbounded">Аа&nbsp;1</button>
+  <button type="button" data-hf="2" aria-pressed="false" title="Rubik">Аа&nbsp;2</button>
+  <button type="button" data-hf="3" aria-pressed="false" title="Balsamiq Sans">Аа&nbsp;3</button>
+</div>
+
+<div class="wm" aria-hidden="true"></div>
+<div class="wm-badge">Демо&nbsp;- дизайн sakina_web</div>
+
+<script src="demo.js"></script>
+</body>
+</html>
